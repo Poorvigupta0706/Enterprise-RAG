@@ -11,7 +11,7 @@ jobs:
   eval:
     name: Hybrid RAG + RAGAS
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     services:
       qdrant:
@@ -49,9 +49,28 @@ jobs:
 
       - name: Wait for Qdrant
         run: |
-          echo "Waiting for Qdrant to start..."
-          sleep 20
-          curl http://localhost:6333/collections || true
+          echo "Waiting for Qdrant..."
+          for i in {1..30}; do
+            curl -fs http://localhost:6333/collections && break
+            sleep 2
+          done
+
+      - name: Install Ollama
+        run: |
+          curl -fsSL https://ollama.com/install.sh | sh
+
+      - name: Start Ollama
+        run: |
+          nohup ollama serve > ollama.log 2>&1 &
+          sleep 15
+
+      - name: Pull Qwen model
+        run: |
+          ollama pull qwen2.5-coder:7b
+
+      - name: Verify Ollama
+        run: |
+          curl http://localhost:11434/api/tags
 
       - name: Unit tests
         run: pytest -q || true
