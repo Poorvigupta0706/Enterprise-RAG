@@ -3,18 +3,27 @@ name: RAGAS evals
 on:
   pull_request:
   push:
-    branches: [main, master]
+    branches:
+      - main
+      - master
 
 jobs:
   eval:
     name: Hybrid RAG + RAGAS
     runs-on: ubuntu-latest
     timeout-minutes: 30
+
     services:
       qdrant:
-        image: qdrant/qdrant
+        image: qdrant/qdrant:latest
         ports:
           - 6333:6333
+        options: >-
+          --health-cmd="curl -f http://localhost:6333/readyz || exit 1"
+          --health-interval=5s
+          --health-timeout=5s
+          --health-retries=20
+
     permissions:
       contents: read
       pull-requests: write
@@ -22,10 +31,12 @@ jobs:
     env:
       QDRANT_URL: http://localhost:6333
       QDRANT_COLLECTION: nimbus_docs
+
       LANGCHAIN_TRACING_V2: "false"
       LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGCHAIN_PROJECT: rag-hybrid-eval-ci
+
     steps:
       - uses: actions/checkout@v4
 
@@ -39,14 +50,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Wait for Qdrant
-        run: sleep 10
+      - name: Verify Qdrant is running
+        run: |
+          echo "Checking Qdrant..."
+          curl http://localhost:6333
+          curl http://localhost:6333/collections
 
       - name: Unit tests
         run: pytest -q || true
 
       - name: Run RAGAS evaluation suite
-        run: python run_eval.py --out reports/ragas_report.json
+        run: |
+          python run_eval.py --out reports/ragas_report.json
 
       - name: Upload eval report
         if: always()
@@ -63,21 +78,22 @@ jobs:
             const fs = require('fs');
             const p = 'reports/ragas_report.json';
             if (!fs.existsSync(p)) return;
+
             const r = JSON.parse(fs.readFileSync(p, 'utf8'));
             const av = r.averages || {};
+
             const body = [
               '## RAGAS eval (CI)',
               '',
-              `| Metric | Score |`,
-              `|---|---|`,
+              '| Metric | Score |',
+              '|---|---|',
               `| Faithfulness | ${av.faithfulness ?? 'n/a'} |`,
               `| Answer relevancy | ${av.answer_relevancy ?? 'n/a'} |`,
               `| Context precision | ${av.context_precision ?? 'n/a'} |`,
               '',
-              `Official RAGAS: \`${(r.ragas_official && r.ragas_official.status) || 'n/a'}\``,
-              '',
-              `_Hybrid search (dense + BM25 RRF) + cross-encoder rerank. Fails the job if scores drop below \`evals/thresholds.yaml\`._`,
+              `Official RAGAS: ${(r.ragas_official && r.ragas_official.status) || 'n/a'}`,
             ].join('\n');
+
             github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
