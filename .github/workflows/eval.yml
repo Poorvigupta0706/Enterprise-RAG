@@ -10,9 +10,15 @@ jobs:
     name: Hybrid RAG + RAGAS
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    services:
+      qdrant:
+        image: qdrant/qdrant
+        ports:
+          - 6333:6333
     permissions:
       contents: read
       pull-requests: write
+
     env:
 
       LANGCHAIN_TRACING_V2: "false"
