@@ -47,6 +47,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
+      - name: Debug Redis
+        run: |
+          python --version
+          pip show redis
+          pip list
+
       - name: Wait for Qdrant
         run: |
           echo "Waiting for Qdrant..."
@@ -73,7 +79,8 @@ jobs:
           curl http://localhost:11434/api/tags
 
       - name: Unit tests
-        run: pytest -q || true
+        run: |
+          pytest -q || true
 
       - name: Run RAGAS evaluation suite
         run: |
@@ -107,8 +114,8 @@ jobs:
               '| Metric | Score |',
               '|---|---|',
               `| Faithfulness | ${av.faithfulness ?? 'n/a'} |`,
-              `| Answer relevancy | ${av.answer_relevancy ?? 'n/a'} |`,
-              `| Context precision | ${av.context_precision ?? 'n/a'} |`,
+              `| Answer Relevancy | ${av.answer_relevancy ?? 'n/a'} |`,
+              `| Context Precision | ${av.context_precision ?? 'n/a'} |`,
               '',
               `Official RAGAS: ${(r.ragas_official && r.ragas_official.status) || 'n/a'}`
             ].join('\n');
