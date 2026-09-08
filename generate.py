@@ -3,8 +3,9 @@ import os
 import re
 from langchain_ollama import ChatOllama
 from langchain_core.language_models.chat_models import BaseChatModel
-from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.messages import HumanMessage, SystemMessage, AIMessage
 from config import settings
+from memory import get_history
 from type import RetrievedDoc
 _SYSTEM = (
  """
@@ -32,22 +33,52 @@ def get_generator_llm() -> BaseChatModel:
 def generate_answer(
     question: str,
     contexts: list[RetrievedDoc],
+    session_id:str,
     llm: BaseChatModel | None = None,
 ) -> tuple[str, str]:
     packed = _pack_context(contexts)
     print("\n===== RETRIEVED CONTEXT =====")
     print(packed)
     print("=============================\n")
-    if llm is None:
-        llm = get_generator_llm()
     if llm is not None:
-        msg = llm.invoke(
-            [
-                SystemMessage(content=_SYSTEM),
-                HumanMessage(content=f"Context:\n{packed}\n\nQuestion: {question}"),
-            ]
+
+        history = get_history(session_id)
+
+        messages = [
+            SystemMessage(content=_SYSTEM)
+        ]
+
+        for msg in history:
+
+            if msg["role"] == "user":
+                messages.append(
+                    HumanMessage(
+                        content=msg["content"]
+                    )
+                )
+
+            elif msg["role"] == "assistant":
+                messages.append(
+                    AIMessage(
+                        content=msg["content"]
+                    )
+                )
+
+        messages.append(
+            HumanMessage(
+                content=f"""
+    Context:
+    {packed}
+
+    Question:
+    {question}
+    """
+            )
         )
-        return str(msg.content).strip(), "qwen2.5-coder:7b"
+
+        response = llm.invoke(messages)
+
+        return str(response.content).strip(), "qwen2.5-coder:7b"
     return extractive_answer(question, contexts), "extractive"
 def extractive_answer(question: str, contexts: list[RetrievedDoc]) -> str:
     if not contexts:

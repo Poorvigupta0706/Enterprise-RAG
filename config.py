@@ -17,6 +17,10 @@ class Settings(BaseSettings):
     qdrant_api_key: str = ""
     qdrant_collection: str = "nimbus_docs"
 
+    redis_host: str = "localhost"
+    redis_port: int = 6379
+    redis_ttl: int = 3600
+
     dense_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     sparse_model: str = "Qdrant/bm25"
     rerank_model: str = "Xenova/ms-marco-MiniLM-L-6-v2"
