@@ -42,7 +42,7 @@ jobs:
         run: pytest -q || true
 
       - name: Run RAGAS evaluation suite
-        run: python evals/run_eval.py --out reports/ragas_report.json
+        run: python run_eval.py --out reports/ragas_report.json
 
       - name: Upload eval report
         if: always()
