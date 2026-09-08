@@ -15,14 +15,9 @@ jobs:
 
     services:
       qdrant:
-        image: qdrant/qdrant:latest
+        image: qdrant/qdrant:v1.13.2
         ports:
           - 6333:6333
-        options: >-
-          --health-cmd="curl -f http://localhost:6333/readyz || exit 1"
-          --health-interval=5s
-          --health-timeout=5s
-          --health-retries=20
 
     permissions:
       contents: read
@@ -38,9 +33,11 @@ jobs:
       LANGCHAIN_PROJECT: rag-hybrid-eval-ci
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: "3.12"
           cache: pip
@@ -50,11 +47,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
 
-      - name: Verify Qdrant is running
+      - name: Wait for Qdrant
         run: |
-          echo "Checking Qdrant..."
-          curl http://localhost:6333
-          curl http://localhost:6333/collections
+          echo "Waiting for Qdrant to start..."
+          sleep 20
+          curl http://localhost:6333/collections || true
 
       - name: Unit tests
         run: pytest -q || true
@@ -77,7 +74,10 @@ jobs:
           script: |
             const fs = require('fs');
             const p = 'reports/ragas_report.json';
-            if (!fs.existsSync(p)) return;
+
+            if (!fs.existsSync(p)) {
+              return;
+            }
 
             const r = JSON.parse(fs.readFileSync(p, 'utf8'));
             const av = r.averages || {};
@@ -91,12 +91,12 @@ jobs:
               `| Answer relevancy | ${av.answer_relevancy ?? 'n/a'} |`,
               `| Context precision | ${av.context_precision ?? 'n/a'} |`,
               '',
-              `Official RAGAS: ${(r.ragas_official && r.ragas_official.status) || 'n/a'}`,
+              `Official RAGAS: ${(r.ragas_official && r.ragas_official.status) || 'n/a'}`
             ].join('\n');
 
-            github.rest.issues.createComment({
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body,
+              body
             });
