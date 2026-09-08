@@ -20,7 +20,8 @@ jobs:
       pull-requests: write
 
     env:
-
+      QDRANT_URL: http://localhost:6333
+      QDRANT_COLLECTION: nimbus_docs
       LANGCHAIN_TRACING_V2: "false"
       LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
       LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
@@ -37,6 +38,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -e ".[dev]"
+
+      - name: Wait for Qdrant
+        run: sleep 10
 
       - name: Unit tests
         run: pytest -q || true
