@@ -1,0 +1,42 @@
+[
+  {
+    "question": "What uptime SLA does the Pro plan include?",
+    "ground_truth": "Pro includes a 99.9% monthly uptime SLA for the HTTPS edge and managed PostgreSQL primary.",
+    "complex": false
+  },
+  {
+    "question": "How do I request a refund and what is the monthly refund window?",
+    "ground_truth": "Request a refund in Settings → Billing → Request refund or email billing@nimbus.example from an owner account with workspace id and invoice number. Monthly subscriptions may be refunded in full within 14 days of the first paid invoice if API volume is under 10,000.",
+    "complex": true
+  },
+  {
+    "question": "Which regions can Starter and Pro choose and can the home region be changed later?",
+    "ground_truth": "Starter and Pro may choose us-east-1, eu-west-1, or ap-southeast-1 at creation. The home region cannot be changed later.",
+    "complex": true
+  },
+  {
+    "question": "What is the Starter API rate limit in requests per second?",
+    "ground_truth": "Starter is limited to 10 requests per second per workspace.",
+    "complex": false
+  },
+  {
+    "question": "How long are application logs retained on Pro, and how long are audit logs retained on Enterprise?",
+    "ground_truth": "Application logs are retained 30 days on Pro. Audit logs are retained 7 years on Enterprise.",
+    "complex": true
+  },
+  {
+    "question": "What is the Sev-1 response time for Enterprise versus Pro?",
+    "ground_truth": "Enterprise has a contractual 15-minute Sev-1 response. Pro Sev-1 target is 1 hour.",
+    "complex": true
+  },
+  {
+    "question": "When will API v0 be shut down?",
+    "ground_truth": "Deprecated v0 will be shut down on 2027-03-01.",
+    "complex": false
+  },
+  {
+    "question": "Is there a free-forever tier after the trial?",
+    "ground_truth": "There is no free-forever tier after 14 days. After the Pro trial the workspace converts to Starter unless a paid plan is selected.",
+    "complex": false
+  }
+]

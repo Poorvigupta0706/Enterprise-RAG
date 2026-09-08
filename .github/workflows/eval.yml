@@ -1,0 +1,76 @@
+name: RAGAS evals
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+
+jobs:
+  eval:
+    name: Hybrid RAG + RAGAS
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      pull-requests: write
+    env:
+
+      LANGCHAIN_TRACING_V2: "false"
+      LANGCHAIN_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGSMITH_API_KEY: ${{ secrets.LANGSMITH_API_KEY }}
+      LANGCHAIN_PROJECT: rag-hybrid-eval-ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Unit tests
+        run: pytest -q
+
+      - name: Run RAGAS evaluation suite
+        run: python evals/run_eval.py --out reports/ragas_report.json
+
+      - name: Upload eval report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ragas-report
+          path: reports/ragas_report.json
+
+      - name: Comment metrics on PR
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const p = 'reports/ragas_report.json';
+            if (!fs.existsSync(p)) return;
+            const r = JSON.parse(fs.readFileSync(p, 'utf8'));
+            const av = r.averages || {};
+            const body = [
+              '## RAGAS eval (CI)',
+              '',
+              `| Metric | Score |`,
+              `|---|---|`,
+              `| Faithfulness | ${av.faithfulness ?? 'n/a'} |`,
+              `| Answer relevancy | ${av.answer_relevancy ?? 'n/a'} |`,
+              `| Context precision | ${av.context_precision ?? 'n/a'} |`,
+              '',
+              `Official RAGAS: \`${(r.ragas_official && r.ragas_official.status) || 'n/a'}\``,
+              '',
+              `_Hybrid search (dense + BM25 RRF) + cross-encoder rerank. Fails the job if scores drop below \`evals/thresholds.yaml\`._`,
+            ].join('\n');
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body,
+            });

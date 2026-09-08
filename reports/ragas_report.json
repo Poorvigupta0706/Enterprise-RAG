@@ -1,0 +1,453 @@
+{
+  "generated_at": "2026-09-08T05:50:13.499335+00:00",
+  "backend": "ragas-local-metrics",
+  "averages": {
+    "faithfulness": 0.875,
+    "answer_relevancy": 0.7957,
+    "context_precision": 0.9
+  },
+  "ragas_official": {
+    "status": "skipped",
+    "reason": "OPENAI_API_KEY not set"
+  },
+  "n_samples": 8,
+  "samples": [
+    {
+      "question": "What uptime SLA does the Pro plan include?",
+      "complex": false,
+      "subqueries": [
+        "Pro plan uptime SLA?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "The Pro plan includes a 99.9% monthly uptime SLA for the HTTPS edge and managed PostgreSQL primary.",
+      "ground_truth": "Pro includes a 99.9% monthly uptime SLA for the HTTPS edge and managed PostgreSQL primary.",
+      "context_texts": [
+        "Pro includes a 99.9% monthly uptime SLA for the HTTPS edge and managed PostgreSQL primary. SLA credits are 10% of the monthly subscription for each 0.1% of downtime below 99.9%, capped at 50% of that month's subscription. Scheduled maintenance windows published 72 hours in advance do not count as downtime.",
+        "Enterprise includes a 99.99% monthly uptime SLA, a 15-minute Sev-1 page-out, and a named customer success manager. SLA credits follow the same 10% per 0.1% miss schedule as Pro, capped at 100% of the monthly subscription.",
+        "Starter includes 2 vCPU / 4 GB RAM application instances, 20 GB object storage, and 50,000 API requests per calendar month. Support is email-only with a next-business-day target. Starter has no uptime SLA.",
+        "Starter email support is monitored Monday\u2013Friday 09:00\u201317:00 in the workspace home region's local time, excluding public holidays. Pro adds 24x5 chat. Enterprise includes 24x7 chat and phone, plus a dedicated Slack Connect channel.",
+        "# Plans, SLA, and Billing"
+      ],
+      "retrieved": [
+        {
+          "id": "plan-sla-002",
+          "title": "Pro plan SLA",
+          "rerank_score": 7.564624786376953,
+          "rrf_score": 0.032266458495966696
+        },
+        {
+          "id": "plan-sla-003",
+          "title": "Enterprise SLA",
+          "rerank_score": 5.6260457038879395,
+          "rrf_score": 0.03225806451612903
+        },
+        {
+          "id": "plan-sla-001",
+          "title": "Starter plan",
+          "rerank_score": 0.4521794319152832,
+          "rrf_score": 0.031009615384615385
+        },
+        {
+          "id": "support-001",
+          "title": "Support hours",
+          "rerank_score": -5.33555793762207,
+          "rrf_score": 0.03055037313432836
+        },
+        {
+          "id": "plan-sla-000",
+          "title": "Plan Sla",
+          "rerank_score": -5.592750549316406,
+          "rrf_score": 0.032266458495966696
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "How do I request a refund and what is the monthly refund window?",
+      "complex": true,
+      "subqueries": [
+        "How do I request a refund?",
+        "What is the monthly refund window?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "To request a refund, go to the billing console under **Settings \u2192 Billing \u2192 Request refund** or email `billing@nimbus.example` from an owner account. Include the workspace id and invoice number. The monthly refund window is 14 days from the first paid invoice if API request volume is under 10,000.",
+      "ground_truth": "Request a refund in Settings \u2192 Billing \u2192 Request refund or email billing@nimbus.example from an owner account with workspace id and invoice number. Monthly subscriptions may be refunded in full within 14 days of the first paid invoice if API volume is under 10,000.",
+      "context_texts": [
+        "Refunds are requested in the billing console under **Settings \u2192 Billing \u2192 Request refund**, or by emailing `billing@nimbus.example` from an owner account. The request must include the workspace id (`ws_...`) and the invoice number. Finance replies within 2 business days. Approved refunds settle to the original payment method within 5\u201310 business days.",
+        "Monthly subscriptions may be refunded in full if cancellation is requested within 14 days of the first paid invoice and API request volume is under 10,000 for that workspace. Annual subscriptions may be refunded pro-rata within 30 days of purchase, minus any consumed overage charges.",
+        "Opening a chargeback while a refund request is open automatically pauses the refund. Workspaces with two or more chargebacks in 12 months are ineligible for self-serve refunds and must go through Enterprise legal review.",
+        "# Refunds and Cancellations",
+        "Subscriptions are billed monthly in arrears on the workspace anniversary date. Adding seats mid-cycle is prorated. Removing seats takes effect at the next renewal. Invoices are issued as PDF to billing contacts and are due in 15 days."
+      ],
+      "retrieved": [
+        {
+          "id": "refund-002",
+          "title": "How to request a refund",
+          "rerank_score": 4.714174270629883,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "refund-001",
+          "title": "Refund window",
+          "rerank_score": 2.56997013092041,
+          "rrf_score": 0.031754032258064516
+        },
+        {
+          "id": "refund-003",
+          "title": "Chargebacks",
+          "rerank_score": 2.304513454437256,
+          "rrf_score": 0.03200204813108039
+        },
+        {
+          "id": "refund-000",
+          "title": "Refund",
+          "rerank_score": -5.5403547286987305,
+          "rrf_score": 0.03177805800756621
+        },
+        {
+          "id": "plan-sla-004",
+          "title": "Billing cycle",
+          "rerank_score": -10.452595710754395,
+          "rrf_score": 0.030309988518943745
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "Which regions can Starter and Pro choose and can the home region be changed later?",
+      "complex": true,
+      "subqueries": [
+        "Which regions can Starter and Pro choose?",
+        "Can the home region be changed later?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "Starter and Pro workspaces may choose `us-east-1`, `eu-west-1`, or `ap-southeast-1` at creation time. The home region cannot be changed later.",
+      "ground_truth": "Starter and Pro may choose us-east-1, eu-west-1, or ap-southeast-1 at creation. The home region cannot be changed later.",
+      "context_texts": [
+        "Starter and Pro workspaces may choose `us-east-1`, `eu-west-1`, or `ap-southeast-1` at creation time. The home region cannot be changed later. Enterprise can add `eu-central-1` and `ap-northeast-1`. Object storage replicas stay inside the same geopolitical area: US, EU, or APAC. Backups never leave that area.",
+        "Starter email support is monitored Monday\u2013Friday 09:00\u201317:00 in the workspace home region's local time, excluding public holidays. Pro adds 24x5 chat. Enterprise includes 24x7 chat and phone, plus a dedicated Slack Connect channel.",
+        "Starter is limited to 10 requests per second (RPS) per workspace. Pro is limited to 100 RPS. Enterprise default is 500 RPS and can be raised with a support ticket. Burst tokens equal 2x the sustained RPS for 10 seconds. HTTP 429 responses include `Retry-After` in seconds.",
+        "Data in transit uses TLS 1.2 or newer. Data at rest uses AES-256. Customer-managed keys (CMK) are available on Enterprise via AWS KMS, GCP Cloud KMS, or Azure Key Vault in the workspace home region.",
+        "Application logs are retained 14 days on Starter, 30 days on Pro, and 90 days on Enterprise. Audit logs are retained 1 year on Pro and 7 years on Enterprise. Deleted workspaces enter a 30-day recoverable tombstone, then are cryptographically erased."
+      ],
+      "retrieved": [
+        {
+          "id": "security-002",
+          "title": "Data residency",
+          "rerank_score": 8.72874641418457,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "support-001",
+          "title": "Support hours",
+          "rerank_score": 0.4416564106941223,
+          "rrf_score": 0.031754032258064516
+        },
+        {
+          "id": "api-002",
+          "title": "Rate limits",
+          "rerank_score": -7.719669342041016,
+          "rrf_score": 0.03149801587301587
+        },
+        {
+          "id": "security-001",
+          "title": "Encryption",
+          "rerank_score": -9.061393737792969,
+          "rrf_score": 0.028949545078577336
+        },
+        {
+          "id": "security-004",
+          "title": "Retention",
+          "rerank_score": -9.230525016784668,
+          "rrf_score": 0.029386529386529386
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.875,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "What is the Starter API rate limit in requests per second?",
+      "complex": false,
+      "subqueries": [
+        "What is the Starter API rate limit?",
+        "How many requests per second is the Starter API rate limit?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "The Starter API rate limit is 10 requests per second (RPS).",
+      "ground_truth": "Starter is limited to 10 requests per second per workspace.",
+      "context_texts": [
+        "Starter is limited to 10 requests per second (RPS) per workspace. Pro is limited to 100 RPS. Enterprise default is 500 RPS and can be raised with a support ticket. Burst tokens equal 2x the sustained RPS for 10 seconds. HTTP 429 responses include `Retry-After` in seconds.",
+        "Starter includes 2 vCPU / 4 GB RAM application instances, 20 GB object storage, and 50,000 API requests per calendar month. Support is email-only with a next-business-day target. Starter has no uptime SLA.",
+        "Monthly subscriptions may be refunded in full if cancellation is requested within 14 days of the first paid invoice and API request volume is under 10,000 for that workspace. Annual subscriptions may be refunded pro-rata within 30 days of purchase, minus any consumed overage charges.",
+        "# API Limits and Authentication",
+        "Sev-1 is a full production outage or data-loss event. Sev-2 is a major feature unavailable with a workaround. Sev-3 is a degraded component. Sev-4 is a question or cosmetic issue. Only Enterprise has a contractual 15-minute Sev-1 response. Pro Sev-1 target is 1 hour. Starter has no severity-based timer."
+      ],
+      "retrieved": [
+        {
+          "id": "api-002",
+          "title": "Rate limits",
+          "rerank_score": 5.596271991729736,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "plan-sla-001",
+          "title": "Starter plan",
+          "rerank_score": 0.8993722200393677,
+          "rrf_score": 0.03225806451612903
+        },
+        {
+          "id": "refund-001",
+          "title": "Refund window",
+          "rerank_score": -3.579256534576416,
+          "rrf_score": 0.0293236301369863
+        },
+        {
+          "id": "api-000",
+          "title": "Api",
+          "rerank_score": -7.496951103210449,
+          "rrf_score": 0.032266458495966696
+        },
+        {
+          "id": "support-002",
+          "title": "Severity levels",
+          "rerank_score": -9.364479064941406,
+          "rrf_score": 0.028985507246376812
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "How long are application logs retained on Pro, and how long are audit logs retained on Enterprise?",
+      "complex": true,
+      "subqueries": [
+        "How long are application logs retained on Pro?",
+        "How long are audit logs retained on Enterprise?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "Application logs are retained 30 days on Pro, and audit logs are retained 7 years on Enterprise.",
+      "ground_truth": "Application logs are retained 30 days on Pro. Audit logs are retained 7 years on Enterprise.",
+      "context_texts": [
+        "Application logs are retained 14 days on Starter, 30 days on Pro, and 90 days on Enterprise. Audit logs are retained 1 year on Pro and 7 years on Enterprise. Deleted workspaces enter a 30-day recoverable tombstone, then are cryptographically erased.",
+        "Public incidents are posted to `status.nimbus.example` within 15 minutes of confirmation. A preliminary RCA is shared with affected Pro and Enterprise customers in 3 business days. A final RCA is due in 10 business days. Customers must not post customer data in public status comments.",
+        "Sev-1 is a full production outage or data-loss event. Sev-2 is a major feature unavailable with a workaround. Sev-3 is a degraded component. Sev-4 is a question or cosmetic issue. Only Enterprise has a contractual 15-minute Sev-1 response. Pro Sev-1 target is 1 hour. Starter has no severity-based timer.",
+        "Starter is limited to 10 requests per second (RPS) per workspace. Pro is limited to 100 RPS. Enterprise default is 500 RPS and can be raised with a support ticket. Burst tokens equal 2x the sustained RPS for 10 seconds. HTTP 429 responses include `Retry-After` in seconds.",
+        "Monthly subscriptions may be refunded in full if cancellation is requested within 14 days of the first paid invoice and API request volume is under 10,000 for that workspace. Annual subscriptions may be refunded pro-rata within 30 days of purchase, minus any consumed overage charges."
+      ],
+      "retrieved": [
+        {
+          "id": "security-004",
+          "title": "Retention",
+          "rerank_score": 10.777568817138672,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "support-003",
+          "title": "Incident process",
+          "rerank_score": -0.25642865896224976,
+          "rrf_score": 0.029857397504456328
+        },
+        {
+          "id": "support-002",
+          "title": "Severity levels",
+          "rerank_score": -3.6200830936431885,
+          "rrf_score": 0.02877846790890269
+        },
+        {
+          "id": "api-002",
+          "title": "Rate limits",
+          "rerank_score": -4.125013828277588,
+          "rrf_score": 0.030309988518943745
+        },
+        {
+          "id": "refund-001",
+          "title": "Refund window",
+          "rerank_score": -4.392769813537598,
+          "rrf_score": 0.030776515151515152
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8571,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "What is the Sev-1 response time for Enterprise versus Pro?",
+      "complex": true,
+      "subqueries": [
+        "What is the Sev-1 response time for Enterprise?",
+        "What is the Sev-1 response time for Pro?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "Enterprise has a contractual 15-minute Sev-1 response time. Pro has a target of 1 hour for Sev-1.",
+      "ground_truth": "Enterprise has a contractual 15-minute Sev-1 response. Pro Sev-1 target is 1 hour.",
+      "context_texts": [
+        "Sev-1 is a full production outage or data-loss event. Sev-2 is a major feature unavailable with a workaround. Sev-3 is a degraded component. Sev-4 is a question or cosmetic issue. Only Enterprise has a contractual 15-minute Sev-1 response. Pro Sev-1 target is 1 hour. Starter has no severity-based timer.",
+        "Enterprise includes a 99.99% monthly uptime SLA, a 15-minute Sev-1 page-out, and a named customer success manager. SLA credits follow the same 10% per 0.1% miss schedule as Pro, capped at 100% of the monthly subscription.",
+        "Starter is limited to 10 requests per second (RPS) per workspace. Pro is limited to 100 RPS. Enterprise default is 500 RPS and can be raised with a support ticket. Burst tokens equal 2x the sustained RPS for 10 seconds. HTTP 429 responses include `Retry-After` in seconds.",
+        "Application logs are retained 14 days on Starter, 30 days on Pro, and 90 days on Enterprise. Audit logs are retained 1 year on Pro and 7 years on Enterprise. Deleted workspaces enter a 30-day recoverable tombstone, then are cryptographically erased.",
+        "Public incidents are posted to `status.nimbus.example` within 15 minutes of confirmation. A preliminary RCA is shared with affected Pro and Enterprise customers in 3 business days. A final RCA is due in 10 business days. Customers must not post customer data in public status comments."
+      ],
+      "retrieved": [
+        {
+          "id": "support-002",
+          "title": "Severity levels",
+          "rerank_score": 8.168169021606445,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "plan-sla-003",
+          "title": "Enterprise SLA",
+          "rerank_score": 4.132460594177246,
+          "rrf_score": 0.03200204813108039
+        },
+        {
+          "id": "api-002",
+          "title": "Rate limits",
+          "rerank_score": 2.4418814182281494,
+          "rrf_score": 0.0315136476426799
+        },
+        {
+          "id": "security-004",
+          "title": "Retention",
+          "rerank_score": -1.4873290061950684,
+          "rrf_score": 0.02904040404040404
+        },
+        {
+          "id": "support-003",
+          "title": "Incident process",
+          "rerank_score": -1.882462978363037,
+          "rrf_score": 0.029138513513513514
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.8333,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "When will API v0 be shut down?",
+      "complex": false,
+      "subqueries": [
+        "When will API v0 be shut down?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "API v0 will be shut down on 2027-03-01.",
+      "ground_truth": "Deprecated v0 will be shut down on 2027-03-01.",
+      "context_texts": [
+        "The current stable API is `v1`. Deprecated `v0` will be shut down on 2027-03-01. Sunset headers are sent on `v0` responses.",
+        "Monthly subscriptions may be refunded in full if cancellation is requested within 14 days of the first paid invoice and API request volume is under 10,000 for that workspace. Annual subscriptions may be refunded pro-rata within 30 days of purchase, minus any consumed overage charges.",
+        "# API Limits and Authentication",
+        "All API calls require an `Authorization: Bearer nimbus_...` header. Keys are created by owners or admins. Keys are shown once at creation. Rotation creates a new key and keeps the previous key valid for 24 hours.",
+        "Starter includes 2 vCPU / 4 GB RAM application instances, 20 GB object storage, and 50,000 API requests per calendar month. Support is email-only with a next-business-day target. Starter has no uptime SLA."
+      ],
+      "retrieved": [
+        {
+          "id": "api-004",
+          "title": "Versioning",
+          "rerank_score": 9.868805885314941,
+          "rrf_score": 0.03278688524590164
+        },
+        {
+          "id": "refund-001",
+          "title": "Refund window",
+          "rerank_score": -4.470715045928955,
+          "rrf_score": 0.029877369007803793
+        },
+        {
+          "id": "api-000",
+          "title": "Api",
+          "rerank_score": -9.144392013549805,
+          "rrf_score": 0.0315136476426799
+        },
+        {
+          "id": "api-001",
+          "title": "Authentication",
+          "rerank_score": -9.355896949768066,
+          "rrf_score": 0.029571646010002173
+        },
+        {
+          "id": "plan-sla-001",
+          "title": "Starter plan",
+          "rerank_score": -10.616218566894531,
+          "rrf_score": 0.03125
+        }
+      ],
+      "scores": {
+        "faithfulness": 1.0,
+        "answer_relevancy": 1.0,
+        "context_precision": 1.0
+      }
+    },
+    {
+      "question": "Is there a free-forever tier after the trial?",
+      "complex": false,
+      "subqueries": [
+        "Is there a free-forever tier after the trial?"
+      ],
+      "generator": "qwen2.5-coder:7b",
+      "answer": "I do not know.",
+      "ground_truth": "There is no free-forever tier after 14 days. After the Pro trial the workspace converts to Starter unless a paid plan is selected.",
+      "context_texts": [
+        "# Plans, SLA, and Billing",
+        "# Refunds and Cancellations",
+        "Opening a chargeback while a refund request is open automatically pauses the refund. Workspaces with two or more chargebacks in 12 months are ineligible for self-serve refunds and must go through Enterprise legal review.",
+        "# API Limits and Authentication",
+        "Monthly subscriptions may be refunded in full if cancellation is requested within 14 days of the first paid invoice and API request volume is under 10,000 for that workspace. Annual subscriptions may be refunded pro-rata within 30 days of purchase, minus any consumed overage charges."
+      ],
+      "retrieved": [
+        {
+          "id": "plan-sla-000",
+          "title": "Plan Sla",
+          "rerank_score": -11.233206748962402,
+          "rrf_score": 0.013888888888888888
+        },
+        {
+          "id": "refund-000",
+          "title": "Refund",
+          "rerank_score": -11.279720306396484,
+          "rrf_score": 0.013333333333333334
+        },
+        {
+          "id": "refund-003",
+          "title": "Chargebacks",
+          "rerank_score": -11.318275451660156,
+          "rrf_score": 0.014492753623188406
+        },
+        {
+          "id": "api-000",
+          "title": "Api",
+          "rerank_score": -11.322436332702637,
+          "rrf_score": 0.0136986301369863
+        },
+        {
+          "id": "refund-001",
+          "title": "Refund window",
+          "rerank_score": -11.334617614746094,
+          "rrf_score": 0.015873015873015872
+        }
+      ],
+      "scores": {
+        "faithfulness": 0.0,
+        "answer_relevancy": 0.0,
+        "context_precision": 0.2
+      }
+    }
+  ]
+}
