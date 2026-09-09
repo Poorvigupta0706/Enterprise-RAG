@@ -53,6 +53,14 @@ jobs:
           pip show redis
           python -c "import redis; print(redis.__file__)"
 
+      - name: Inspect Redis
+        run: |
+              python - <<EOF
+              import redis
+              print("Redis module path:")
+              print(redis.__file__)
+              EOF
+
       - name: Wait for Qdrant
         run: |
           echo "Waiting for Qdrant..."
