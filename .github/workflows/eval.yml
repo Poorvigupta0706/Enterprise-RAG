@@ -18,6 +18,10 @@ jobs:
         image: qdrant/qdrant:v1.13.2
         ports:
           - 6333:6333
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
 
     permissions:
       contents: read
