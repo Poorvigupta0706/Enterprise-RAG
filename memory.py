@@ -16,7 +16,7 @@ def add_message(
     role: str,
     content: str
 ):
-    if r in None:
+    if r is None:
         return
     r.rpush(
         f"chat:{session_id}",
@@ -28,6 +28,8 @@ def add_message(
 def get_history(
     session_id: str
 ):
+    if r is None:
+        return[]
     messages = r.lrange(
         f"chat:{session_id}",
         0,
