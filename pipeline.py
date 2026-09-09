@@ -152,7 +152,7 @@ class RAGPipeline:
         # Store cache
         set_answer(
             cache_key,
-            result.model_dump_json(),
+            result.json(),
         )
 
         return result

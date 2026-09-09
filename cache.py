@@ -8,6 +8,6 @@ def cache_key(question:str):
 def get_answer(question:str):
     return r.get(cache_key(question))
 def set_answer(question:str, answer:dict):
-    r.setex(cache_key(question),3600, json.dumps(answer))
+    r.setex(cache_key(question),3600, answer)
 
 
