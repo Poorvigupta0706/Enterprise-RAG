@@ -1,18 +1,23 @@
 from __future__ import annotations
 import json
-import redis
+try:
+    import redis
 
-r = redis.Redis(
-    host="localhost",
-    port=6379,
-    db=0
-)
+    r = redis.Redis(
+        host="localhost",
+        port=6379,
+        db=0
+    )
+except Exception:
+    r=None
 MAX_HISTORY=20
 def add_message(
     session_id: str,
     role: str,
     content: str
 ):
+    if r in None:
+        return
     r.rpush(
         f"chat:{session_id}",
         json.dumps({
