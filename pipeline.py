@@ -12,7 +12,8 @@ from cache import get_answer, set_answer
 from memory import add_message
 
 from type import RAGResult, RetrievedDoc
-
+from dataclasses import asdict
+import json
 
 class RAGPipeline:
     def __init__(
@@ -115,7 +116,8 @@ class RAGPipeline:
 
         if cached:
             print("CACHE HIT")
-            return RAGResult.model_validate_json(cached)
+            data = json.loads(cached)
+            return RAGResult(**data)
 
         print("CACHE MISS")
 
@@ -152,7 +154,7 @@ class RAGPipeline:
         # Store cache
         set_answer(
             cache_key,
-            result.json(),
+            json.dumps(asdict(result)),
         )
 
         return result
