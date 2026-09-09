@@ -1,7 +1,7 @@
 import json
 import hashlib
 import redis
-r=redis.Redis(host="localhost", port=6379, db=True)
+r=redis.Redis(host="localhost", port=6379, db=0, decode_responses=True)
 def cache_key(question:str):
     return hashlib.md5(question.lower().strip().encode()
                        ).hexdigest()
