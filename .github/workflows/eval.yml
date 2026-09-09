@@ -50,6 +50,15 @@ jobs:
           pip install redis==8.1.0
 
           pip install -e ".[dev]"
+
+      - name: Show installed redis packages
+        run: |
+          pip list | grep -i redis || true
+
+      - name: Show dependency tree
+        run: |
+          pip install pipdeptree
+          pipdeptree
           
       - name: Inspect Redis
         run: |
