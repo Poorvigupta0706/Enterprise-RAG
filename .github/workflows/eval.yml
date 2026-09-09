@@ -50,6 +50,17 @@ jobs:
           pip install redis==8.1.0
 
           pip install -e ".[dev]"
+          
+      - name: Inspect Redis
+        run: |
+          python - <<EOF
+          import redis
+          import redis.client
+
+          print("redis version =", redis.__version__)
+          print("redis file =", redis.__file__)
+          print("redis.client file =", redis.client.__file__)
+          EOF
 
       - name: Debug Redis
         run: |
