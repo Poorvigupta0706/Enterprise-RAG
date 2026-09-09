@@ -45,21 +45,32 @@ jobs:
       - name: Install package
         run: |
           python -m pip install --upgrade pip
+
+          pip uninstall -y redis || true
+          pip install redis==8.1.0
+
           pip install -e ".[dev]"
 
       - name: Debug Redis
         run: |
           python --version
-          pip show redis
-          python -c "import redis; print(redis.__file__)"
 
-      - name: Inspect Redis
-        run: |
-              python - <<EOF
-              import redis
-              print("Redis module path:")
-              print(redis.__file__)
-              EOF
+          echo "===== PIP SHOW REDIS ====="
+          pip show redis || true
+
+          echo "===== FREEZE ====="
+          pip freeze | grep redis || true
+
+          echo "===== PYTHON IMPORT ====="
+          python - <<EOF
+          import redis
+
+          print("Redis version:")
+          print(redis.__version__)
+
+          print("\nRedis module path:")
+          print(redis.__file__)
+          EOF
 
       - name: Wait for Qdrant
         run: |
